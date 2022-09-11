@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sh convertor</title>
+  </head>
+  <body>
+    <input type="file" id="file" /> <br /><br />
+    <input type="button" value="convert" id="convert" />
+    <pre></pre>
+
+    <script>
+      const fileInp = document.querySelector("#file");
+      const btn = document.querySelector("#convert");
+      const pre = document.querySelector("pre");
+      let finalResult = "";
+      btn.addEventListener("click", () => {
+        let file = fileInp.files[0];
+        let name = file.name;
+        var reader = new FileReader();
+        let arr = reader.readAsText(file, "UTF-8");
+        finalResult = `sudo print "" > ${name}`;
+        reader.onload = function (evt) {
+          let result = evt.target.result.split(/\r?\n/);
+          console.log(result);
+          result.forEach((element) => {
+            if(element == ''){
+                `\nsudo print "\\n" >> ${name}`
+            }else{
+            finalResult += `\nsudo print "${element}" >> ${name}`;
+            }
+            
+          });
+          console.log(finalResult);
+          pre.innerHTML = finalResult;
+        };
+      });
+    </script>
+  </body>
+</html>
