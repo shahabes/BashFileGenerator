@@ -9,7 +9,7 @@
   <body>
     <input type="file" id="file" /> <br /><br />
     <input type="button" value="convert" id="convert" />
-    <pre></pre>
+    <pre style="user-select: all;"></pre>
 
     <script>
       const fileInp = document.querySelector("#file");
@@ -21,17 +21,16 @@
         let name = file.name;
         var reader = new FileReader();
         let arr = reader.readAsText(file, "UTF-8");
-        finalResult = `sudo print "" > ${name}`;
+        finalResult = `echo "" > ${name}`;
         reader.onload = function (evt) {
           let result = evt.target.result.split(/\r?\n/);
           console.log(result);
           result.forEach((element) => {
-            if(element == ''){
-                `\nsudo print "\\n" >> ${name}`
-            }else{
-            finalResult += `\nsudo print "${element}" >> ${name}`;
+            if (element == "") {
+              `\necho "\\n" >> ${name}`;
+            } else {
+              finalResult += `\necho "${element}" >> ${name}`;
             }
-            
           });
           console.log(finalResult);
           pre.innerHTML = finalResult;
